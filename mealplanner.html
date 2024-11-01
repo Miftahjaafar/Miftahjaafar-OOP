@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Planner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('plenty meal.jpg'); /* Replace 'your-image.jpg' with the path to your image */
+            background-size: cover; /* This will ensure the image covers the entire background */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+
+        header {
+            background-color:  rgba(0, 0, 0, 0.292);;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h2 {
+            font-size: 2rem;
+            font-family: 'Papyrus', cursive;
+            color: white;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            font-size: 1rem;
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover,
+        nav ul li a.active {
+            color: #FF7043;
+        }
+
+        main {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: #FFF3E0;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+        .home-img-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            width: 50px; /* Adjust size as needed */
+            height: 50px; /* Adjust size as needed */
+            transition: transform 0.3s;
+        }
+        .home-img-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            font-size: 1rem;
+            color: #333;
+            font-weight: bold;
+        }
+
+        textarea, input[type="date"], select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #DDD;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+        .buttons button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #FFF;
+            transition: background-color 0.3s;
+        }
+
+        .btn-create {
+            background-color: #FF7043;
+        }
+
+        .btn-update {
+            background-color: #FFD54F;
+        }
+
+        .btn-delete {
+            background-color: #FF7043;
+        }
+
+        .buttons button:hover {
+            opacity: 0.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #FFB74D;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: center;
+            font-size: 1rem;
+        }
+
+        th {
+            background-color: #FF7043;
+            color: #FFF;
+        }
+
+        footer {
+            background-color: rgba(0, 0, 0, 0.292);
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 55px;
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        footer p {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        footer .copyright {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav aria-label="Main navigation">
+            <h2>Meal Planner</h2>
+            <img src="meal finder logo2.png" class="home-img-btn" alt="Back to Homepage" onclick="window.location.href='Homepage.html';">
+        </nav>
+    </header>
+
+    <main>
+        <div class="form-group">
+            <label>Enter Meal Name</label>
+            <textarea id="fileContents" class="form-control" rows="2"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Date to Cook:</label>
+            <input type="date" id="mealdate">
+        </div>
+        <div class="form-group">
+            <label for="mealType">Meal Type:</label>
+            <select id="mealType">
+                <option value="breakfast">Breakfast</option>
+                <option value="lunch">Lunch</option>
+                <option value="dinner">Dinner</option>
+            </select>
+        </div>
+        <div class="buttons">
+            <button class="btn-create" id="btnCreate">Add</button>
+            <button class="btn-update" id="btnUpdate">Update</button>
+            <button class="btn-delete" id="btnDelete">Delete</button>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Meal Name</th>
+                    <th>Date</th>
+                    <th>Meal Type</th>
+                    <th>Option</th>
+                </tr>
+            </thead>
+            <tbody id="mealList">
+                <!-- Planned meals will be displayed here -->
+            </tbody>
+        </table>
+    </main>
+
+    <footer>
+        <hr width="100%" size="1" color="black">
+        <div class="container">
+            <div class="copyright">
+                <p>&copy; 2024 | MealDB Finder</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let meals = [];
+        let selectedMealIndex = -1;
+
+        function renderTable() {
+            const mealList = document.getElementById('mealList');
+            mealList.innerHTML = '';
+
+            meals.forEach((meal, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${meal.name}</td>
+                    <td>${meal.date}</td>
+                    <td>${meal.type}</td>
+                    <td>
+                        <button onclick="editMeal(${index})">Edit</button>
+                        <button onclick="deleteMeal(${index})">Delete</button>
+                    </td>
+                `;
+                mealList.appendChild(row);
+            });
+        }
+
+        function addMeal() {
+            const name = document.getElementById('fileContents').value;
+            const date = document.getElementById('mealdate').value;
+            const type = document.getElementById('mealType').value;
+
+            if (name && date && type) {
+                meals.push({ name, date, type });
+                renderTable();
+                clearForm();
+            }
+        }
+
+        function editMeal(index) {
+            selectedMealIndex = index;
+            const meal = meals[index];
+            document.getElementById('fileContents').value = meal.name;
+            document.getElementById('mealdate').value = meal.date;
+            document.getElementById('mealType').value = meal.type;
+        }
+
+        function updateMeal() {
+            const name = document.getElementById('fileContents').value;
+            const date = document.getElementById('mealdate').value;
+            const type = document.getElementById('mealType').value;
+
+            if (selectedMealIndex > -1 && name && date && type) {
+                meals[selectedMealIndex] = { name, date, type };
+                renderTable();
+                clearForm();
+                selectedMealIndex = -1;
+            }
+        }
+
+        function deleteMeal(index) {
+            meals.splice(index, 1);
+            renderTable();
+            clearForm();
+        }
+
+        function clearForm() {
+            document.getElementById('fileContents').value = '';
+            document.getElementById('mealdate').value = '';
+            document.getElementById('mealType').value = 'breakfast';
+        }
+
+        document.getElementById('btnCreate').addEventListener('click', addMeal);
+        document.getElementById('btnUpdate').addEventListener('click', updateMeal);
+        document.getElementById('btnDelete').addEventListener('click', () => deleteMeal(selectedMealIndex));
+    </script>
+</body>
+</html>

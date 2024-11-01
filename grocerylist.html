@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grocery List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('grocery.jpg'); /* Replace 'your-image.jpg' with the path to your image */
+            background-size: cover; /* This will ensure the image covers the entire background */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+
+        /* Header Styling */
+        header {
+            background-color:  rgba(0, 0, 0, 0.292);;
+            padding: 20px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h2 {
+            font-size: 2rem;
+            font-family: 'Papyrus', cursive;
+            color: white;
+        }
+        .home-img-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            width: 50px; /* Adjust size as needed */
+            height: 50px; /* Adjust size as needed */
+            transition: transform 0.3s;
+        }
+        .home-img-btn:hover {
+            transform: scale(1.1);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #FFD54F;
+        }
+
+        /* Main Content Styling */
+        .mainWrapper {
+            background-color: white;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .mainWrapper h1 {
+            font-size: 1.5rem;
+            color: black;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #DDD;
+            border-radius: 5px;
+            margin-top: 5px;
+        }
+
+        /* Button Styling */
+        button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        #btnCreate {
+            background-color: maroon;
+        }
+
+        #btnRead {
+            background-color: #FFD54F;
+            color: #333;
+        }
+
+        #btnDelete {
+            background-color: maroon;
+        }
+
+        #btnUpdate {
+            background-color: #FFD54F;
+            color: #333;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        /* Footer Styling */
+        footer {
+            background-color: rgba(0, 0, 0, 0.292); /* Slightly transparent black background */
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 55px; /* Adjusted height to fit the new button */
+        }
+
+        /* Style for the container inside the footer */
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Style for the text in the footer */
+        footer p {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        /* Style for the copyright section in the footer */
+        footer .copyright {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header with Navigation Bar -->
+    <header>
+        <nav aria-label="Main navigation">
+            <h2>Grocery List</h2>
+            <img src="meal finder logo2.png" class="home-img-btn" alt="Back to Homepage" onclick="window.location.href='Homepage.html';">
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <div class="mainWrapper">
+        <h1>What Ingredient Do You Want to Add to the Grocery List?</h1>
+
+        <form>
+            <div class="form-group">
+                <label>Grocery Name:</label>
+                <input id="fileName" type="text" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Ingredients List:</label>
+                <textarea id="fileContents" class="form-control" rows="5"></textarea>
+            </div>
+        </form>
+
+        <!-- Action Buttons -->
+        <button id="btnCreate" class="btn">Create New List</button>
+        <button id="btnRead" class="btn">Read All Ingredients</button>
+        <button id="btnDelete" class="btn">Delete the List</button>
+        <button id="btnUpdate" class="btn">Update Your List</button>
+        <div id="output"></div> <!-- This will display the read content -->
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <hr width="100%" size="1" color="black"> <!-- Horizontal rule -->
+        <div class="container">
+            <!-- Copyright information -->
+            <div class="copyright">
+                <p>&copy; 2024 | MealDB Finder</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript for Create, Read, Update, Delete functionality -->
+    <script>
+        // Create List Function
+        document.getElementById('btnCreate').addEventListener('click', function() {
+            const fileName = document.getElementById('fileName').value;
+            const fileContents = document.getElementById('fileContents').value;
+
+            if (fileName && fileContents) {
+                localStorage.setItem(fileName, fileContents);
+                alert('List Created!');
+            } else {
+                alert('Please enter both a name and ingredients.');
+            }
+        });
+
+        // Read List Function
+        document.getElementById('btnRead').addEventListener('click', function() {
+            const fileName = document.getElementById('fileName').value;
+            const output = document.getElementById('output');
+
+            if (fileName) {
+                const fileContents = localStorage.getItem(fileName);
+                if (fileContents) {
+                    output.innerText = `Ingredients for ${fileName}:\n${fileContents}`;
+                } else {
+                    output.innerText = 'List not found!';
+                }
+            } else {
+                alert('Please enter a grocery name to read.');
+            }
+        });
+
+        // Update List Function
+        document.getElementById('btnUpdate').addEventListener('click', function() {
+            const fileName = document.getElementById('fileName').value;
+            const fileContents = document.getElementById('fileContents').value;
+
+            if (fileName && fileContents) {
+                if (localStorage.getItem(fileName)) {
+                    localStorage.setItem(fileName, fileContents);
+                    alert('List Updated!');
+                } else {
+                    alert('List not found to update. Try creating it first.');
+                }
+            } else {
+                alert('Please enter both a name and ingredients.');
+            }
+        });
+
+        // Delete List Function
+        document.getElementById('btnDelete').addEventListener('click', function() {
+            const fileName = document.getElementById('fileName').value;
+
+            if (fileName) {
+                if (localStorage.getItem(fileName)) {
+                    localStorage.removeItem(fileName);
+                    alert('List Deleted!');
+                } else {
+                    alert('List not found to delete.');
+                }
+            } else {
+                alert('Please enter a grocery name to delete.');
+            }
+        });
+    </script>
+
+</body>
+</html>
